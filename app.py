@@ -1,3 +1,7 @@
+// num_receive 오류 수정 완료
+// 원인 : 변수 타입에 따른 인식 불가
+// 해결 : str -> int로 변수 타입 변경 후 정상 작동
+
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
@@ -34,7 +38,7 @@ def bucket_get():
 
 @app.route("/bucket_done", methods=["POST"])
 def bucket_post2():
-    num_receive = request.form['num_give']
+    num_receive = int(request.form['num_give'])
     print(num_receive)
     db.bucket.update_one({'num':num_receive},{'$set':{'done':1}})
     return jsonify({'msg2': '버킷리스트 달성!'})
